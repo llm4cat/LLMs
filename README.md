@@ -3,7 +3,7 @@
 LCSH Label Generation with LLMs and Small Model Guidance
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Method](#Method)
+2. [Method](#method)
 3. [Installation](#installation)
 4. [Tech Stack](#tech-stack)
 5. [License](#license)
@@ -20,23 +20,28 @@ We address key limitations in zero-shot learning such as hallucinated labels, do
 Small Model for Label Count Prediction
 - lightweight model (Randon Forest, Linear regression, XGboost) predicts the number of LCSH labels (N) based on metadata ( title and abstract).
 - We explore multiple values of N (N, 2N, 3N) to analyze the trade-off between precision and recall and to accommodate different user needs.
+
 LLM-Based Label Generation
 - We test various LLMs' performance in our task- Llama-3.1-8b, GPT-3.5/4, DeepSeek-R1/V3
 - We ask LLMs to generate as many LCSH labels as possible to ensure diversity.
 - We use the predicted number of labels to guide the LLM to generate an appropriate number of subject headings.
+  
 Chain-of-Thought (CoT) Reasoning
 - We apply CoT via prompt engineering; we designed a multi-round inference prompt and let LLMs generate the final answer step by step.
 - LLMs will consider previously generated labels when predicting later answers in CoT reasoning.
 - In this way, we can efficiently improve the outputs' diversity and richness.
+  
 Fine-tuning
 - We fine-tune Llama-3.1-8B-Instruct with our training set (76160 samples) and evalute fine-tuned models with our testing set (2100 samples)
 - We apply Supervised Fine-Tuning (SFT) combined with Low-Rank Adaptation (LoRA)to fine-tune our LLM.
 - SFT ensures that the model learns from high-quality, domain-specific examples.
 - LoRA significantly reduces training cost and GPU memory usage by freezing most model parameters and only updating a small set of low-rank matrices.
+  
 Post-processing
 - We add post-processing to handle hallucinations in LLM.
 - Non-standard terms are replaced by using embedding similarity.
 - We replaced them with official controlled vocabulary.
+  
 ## Installation
 1. Clone the repository:
    ```bash
